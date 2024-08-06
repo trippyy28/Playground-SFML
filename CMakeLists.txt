@@ -10,8 +10,9 @@ FetchContent_Declare(SFML
     GIT_TAG 2.6.x)
 FetchContent_MakeAvailable(SFML)
 
-add_executable(Playground src/main.cpp)
-target_link_libraries(Playground PRIVATE sfml-graphics sfml-window sfml-system sfml-audio sfml-network)
+add_executable(Playground src/main.cpp src/AnimationB.cpp src/Healer.cpp src/Game.cpp src/Scene.cpp
+ src/ResourceManager.cpp )
+target_link_libraries(Playground PRIVATE sfml-graphics sfml-audio)
 target_compile_features(Playground PRIVATE cxx_std_17)
 
 if(WIN32)
