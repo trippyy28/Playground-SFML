@@ -1,83 +1,83 @@
 #include "Healer.h"
 
-Healer::Healer(sf::Texture *texture, sf::Vector2u imageCount, float switchTime, float speed)
-    : animationB(texture, imageCount, switchTime)
+Healer::Healer(const sf::Texture &texture, sf::Vector2u imageCount, float switchTime, float speed, sf::Vector2f position)
+    : Entity(texture, position), mAnimation(texture, imageCount, switchTime), mSpeed(speed)
 {
-    this->speed = speed;
-
-    body.setSize(sf::Vector2f(60.0f, 60.0f));
-    body.setPosition(100.0f, 10.0f);
-    body.setTexture(texture);
-    row = 0;
-    column = 0;
+    mRow = 0;
+    mSprite.setTextureRect(mAnimation.uvRect);
+    mSprite.setScale(5.0f, 5.0f);
 }
 
-Healer::~Healer()
-{
-}
+Healer::~Healer() = default;
 
-void Healer::Update(float deltaTime)
+void Healer::update(float deltaTime)
 {
     sf::Vector2f movement(0.0f, 0.0f);
-    bool hasMoved = false;
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {
-        hasMoved = true;
-        movement.x -= speed * deltaTime;
-        row = 3; // Set row to left
+        movement.x -= mSpeed * deltaTime;
+        mRow = 3; // Set row to left
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     {
-        hasMoved = true;
-        movement.x += speed * deltaTime;
-        row = 1; // Set row to right
+        movement.x += mSpeed * deltaTime;
+        mRow = 1; // Set row to right
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
     {
-        hasMoved = true;
-        movement.y -= speed * deltaTime;
-        row = 0; // Set row to up
+        movement.y -= mSpeed * deltaTime;
+        mRow = 0; // Set row to up
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
     {
-        hasMoved = true;
-        movement.y += speed * deltaTime;
-        row = 2; // Set row to down
+        movement.y += mSpeed * deltaTime;
+        mRow = 2; // Set row to down
     }
 
     // Boundary checks
-    if (body.getPosition().x <= 0)
+    if (mSprite.getPosition().x + movement.x < 0)
     {
-        body.setPosition(0, body.getPosition().y);
+        movement.x = -mSprite.getPosition().x;
     }
-    if (body.getPosition().x >= 800 - body.getSize().x)
+    if (mSprite.getPosition().x + movement.x > 800 - mSprite.getGlobalBounds().width)
     {
-        body.setPosition(800 - body.getSize().x, body.getPosition().y);
+        movement.x = 800 - mSprite.getGlobalBounds().width - mSprite.getPosition().x;
     }
-    if (body.getPosition().y <= 0)
+    if (mSprite.getPosition().y + movement.y < 0)
     {
-        body.setPosition(body.getPosition().x, 0);
+        movement.y = -mSprite.getPosition().y;
     }
-    if (body.getPosition().y >= 600 - body.getSize().y)
+    if (mSprite.getPosition().y + movement.y > 600 - mSprite.getGlobalBounds().height)
     {
-        body.setPosition(body.getPosition().x, 600 - body.getSize().y);
+        movement.y = 600 - mSprite.getGlobalBounds().height - mSprite.getPosition().y;
     }
 
-    if (hasMoved)
+    if (movement.x != 0.0f || movement.y != 0.0f)
     {
-        animationB.update(deltaTime, row, column); // Update animation with deltaTime and row
-        body.setTextureRect(animationB.uvRect);
-        body.move(movement);
+        mAnimation.update(deltaTime, mRow, 0); // Update animation with deltaTime and row
+        mSprite.setTextureRect(mAnimation.uvRect);
+        mSprite.move(movement);
     }
     else
     {
-        animationB.update(0, row, 0); // Update animation with deltaTime and row
-        body.setTextureRect(animationB.uvRect);
+        mAnimation.update(0, mRow, 0); // Update animation with deltaTime and row
+        mSprite.setTextureRect(mAnimation.uvRect);
     }
 }
 
-void Healer::Draw(sf::RenderWindow &window)
+sf::Sprite Healer::getSprite()
 {
-    window.draw(body);
+    return mSprite;
+}
+
+void Healer::whenCollided()
+{
+    mSprite.setPosition(100.0f, 100.0f);
+    std::cout << "Healer collided with FloatingShapes" << std::endl;
+}
+
+void Healer::draw(sf::RenderWindow &window)
+{
+    Entity::draw(window);
 }

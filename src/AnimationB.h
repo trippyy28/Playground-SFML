@@ -1,10 +1,11 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <iostream>
+
 class AnimationB
 {
 public:
-    AnimationB(sf::Texture *texture, sf::Vector2u imageCount, float switchTime);
+    AnimationB(const sf::Texture &texture, sf::Vector2u imageCount, float switchTime);
     ~AnimationB();
 
     void update(float deltaTime, unsigned int row, unsigned int column);

@@ -17,6 +17,7 @@ private:
 
     sf::RenderWindow mWindow;
     sf::Music mMusic;
-    Scene mCurrentScene;              // Manage different scenes
-    ResourceManager mResourceManager; // Manage resources like textures and sounds
+    std::unique_ptr<Scene> mCurrentScene; // Use unique_ptr for Scene
+                                          // Manage different scenes
+    ResourceManager mResourceManager;     // Manage resources like textures and sounds
 };
