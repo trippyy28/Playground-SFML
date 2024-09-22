@@ -61,7 +61,7 @@ void Healer::update(float deltaTime)
     }
     else
     {
-        mAnimation.update(0, mRow, 0); // Update animation with deltaTime and row
+        // mAnimation.update(0, mRow, 0); // Update animation with deltaTime and row
         mSprite.setTextureRect(mAnimation.uvRect);
     }
 }
@@ -74,7 +74,7 @@ sf::Sprite Healer::getSprite()
 void Healer::whenCollided()
 {
     mSprite.setPosition(100.0f, 100.0f);
-    std::cout << "Healer collided with FloatingShapes" << std::endl;
+    // std::cout << "Healer collided with FloatingShapes" << std::endl;
 }
 
 void Healer::draw(sf::RenderWindow &window)

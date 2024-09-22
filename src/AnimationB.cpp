@@ -8,8 +8,12 @@ AnimationB::AnimationB(const sf::Texture &texture, sf::Vector2u imageCount, floa
     currentImage.x = 0;
     currentImage.y = 0;
 
-    uvRect.width = 48 / float(this->imageCount.x);
-    uvRect.height = 64 / float(this->imageCount.y);
+    // Get the size of the entire texture
+    textureSize = texture.getSize();
+
+    // Calculate the size of each frame (width and height)
+    uvRect.width = textureSize.x / imageCount.x;
+    uvRect.height = textureSize.y / imageCount.y;
 }
 
 AnimationB::~AnimationB()
@@ -18,20 +22,21 @@ AnimationB::~AnimationB()
 
 void AnimationB::update(float deltaTime, unsigned int row, unsigned int column)
 {
-    currentImage.y = row;
+    currentImage.y = row; // Set the current row for the animation
     totalTime += deltaTime;
 
     if (totalTime >= switchTime)
     {
         totalTime -= switchTime;
-        currentImage.x++;
+        currentImage.x++; // Move to the next frame
 
-        if (currentImage.x >= imageCount.x)
+        if (currentImage.x >= imageCount.x) // If we've gone through all frames, reset
         {
             currentImage.x = 0;
         }
     }
 
-    uvRect.left = currentImage.x * uvRect.width;
-    uvRect.top = currentImage.y * uvRect.height;
+    // Update the uvRect to show the current frame of the sprite sheet
+    uvRect.left = currentImage.x * uvRect.width; // Move horizontally in texture
+    uvRect.top = currentImage.y * uvRect.height; // Move vertically in texture
 }

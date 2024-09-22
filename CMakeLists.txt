@@ -29,6 +29,8 @@ add_executable(Playground
     src/Entity.cpp
     src/FloatingShapes.cpp
     src/DjBooth.cpp
+    src/Menu.cpp
+    src/Bullets.cpp
 )
 
 # Link SFML libraries

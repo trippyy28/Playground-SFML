@@ -3,7 +3,7 @@
 #include <SFML/Audio.hpp>
 #include "Scene.h"
 #include "ResourceManager.h"
-
+#include "Menu.h"
 class Game
 {
 public:
@@ -16,8 +16,8 @@ private:
     void render();
 
     sf::RenderWindow mWindow;
-    sf::Music mMusic;
-    std::unique_ptr<Scene> mCurrentScene; // Use unique_ptr for Scene
-                                          // Manage different scenes
+    std::unique_ptr<Scene> mCurrentScene; // Use unique_ptr for Scene                                // Manage different scenes
     ResourceManager mResourceManager;     // Manage resources like textures and sounds
+    Menu menu;
+    bool showMenu = true;
 };

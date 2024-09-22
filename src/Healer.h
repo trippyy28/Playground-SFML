@@ -10,6 +10,7 @@ public:
 
     void update(float deltaTime) override;
     void draw(sf::RenderWindow &window) override;
+
     void whenCollided();
     sf::Sprite getSprite(); // Get sprite for collision detection
 

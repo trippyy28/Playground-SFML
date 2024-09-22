@@ -4,7 +4,8 @@ Scene::Scene(ResourceManager &resourceManager)
     : mResourceManager(resourceManager),
       mHealer(resourceManager.getTexture("Healer"), sf::Vector2u(3, 4), 0.2f, 150.0f, sf::Vector2f(100.0f, 100.0f)),
       mFloatingShapes(resourceManager.getTexture("Ghost"), sf::Vector2f(400.0f, 400.0f)),
-      mDjBooth(resourceManager.getTexture("DjBooth"), sf::Vector2f(50.0f, 50.0f))
+      mDjBooth(resourceManager.getTexture("DjBooth"), sf::Vector2f(50.0f, 50.0f)),
+      mBullets(resourceManager.getTexture("Bullet"), sf::Vector2u(3, 1), 0.2f, sf ::Vector2f(4.0, 4.0f), sf::Vector2f(150.0f, 200.0f))
 {
 
     std::cout << "Scene initialized with Healer texture" << std::endl;
@@ -23,10 +24,21 @@ void Scene::collisionDetection()
         mHealer.whenCollided();
     }
 }
+
+void Scene::playMusic(const std::string &name)
+{
+    sf::Music &music = mResourceManager.getMusic(name);
+    if (music.getStatus() != sf::Music::Playing)
+    {
+        music.play();
+    }
+}
 void Scene::update(sf::Time deltaTime)
 {
     mHealer.update(deltaTime.asSeconds());
+    mBullets.update(deltaTime.asSeconds());
     mFloatingShapes.update(deltaTime.asSeconds());
+    // playMusic("BackgroundMusic");
     collisionDetection();
 }
 
@@ -35,4 +47,5 @@ void Scene::draw(sf::RenderWindow &window)
     mHealer.draw(window);
     mFloatingShapes.draw(window);
     mDjBooth.draw(window);
+    mBullets.draw(window);
 }

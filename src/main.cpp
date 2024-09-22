@@ -3,6 +3,14 @@
 int main()
 {
     Game game;
-    game.run();
+    try
+    {
+        game.run();
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << "Error: " << e.what() << std::endl;
+        // Handle error (e.g., show message to user, attempt recovery, etc.)
+    }
     return 0;
 }
