@@ -34,6 +34,12 @@ void Game::processEvents()
     sf::Event event;
     while (mWindow.pollEvent(event))
     {
+        // Forward events to the current scene if the menu is not being shown
+        if (!showMenu)
+        {
+            mCurrentScene->handleEvent(event);
+        }
+
         switch (event.type)
         {
         case sf::Event::KeyPressed:

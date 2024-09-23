@@ -24,6 +24,8 @@ private:
     ResourceManager &mResourceManager;
     Healer mHealer;
     FloatingShapes mFloatingShapes;
-    Bullets mBullets;
+    // make the bullets vector
+    std::vector<Bullets> mBullets;
     DjBooth mDjBooth;
+    void shootBullet(int mouseX, int mouseY);
 };

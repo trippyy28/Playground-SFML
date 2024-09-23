@@ -10,6 +10,7 @@ public:
     ~Bullets();
     void update(float deltaTime) override;
     void draw(sf::RenderWindow &window) override;
+    bool isOffScreen() const;
     void whenCollided();
     sf::Sprite getSprite();
     sf::FloatRect getGlobalBounds() const;

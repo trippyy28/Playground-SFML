@@ -17,7 +17,7 @@ Bullets::~Bullets() = default;
 void Bullets::update(float deltaTime)
 {
     mAnimation.update(deltaTime, 0, 0);
-    // mSprite.move(mSpeed * deltaTime * 100.0f);
+    mSprite.move(mSpeed * deltaTime);
     mSprite.setTextureRect(mAnimation.uvRect);
 }
 sf::Sprite Bullets::getSprite()
@@ -25,6 +25,11 @@ sf::Sprite Bullets::getSprite()
     return mSprite;
 }
 
+bool Bullets::isOffScreen() const
+{
+    sf::Vector2f position = mSprite.getPosition();
+    return (position.x < 0 || position.x > 800 || position.y < 0 || position.y > 600);
+}
 void Bullets::draw(sf::RenderWindow &window)
 {
     Entity::draw(window);

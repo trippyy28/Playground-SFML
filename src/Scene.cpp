@@ -4,8 +4,7 @@ Scene::Scene(ResourceManager &resourceManager)
     : mResourceManager(resourceManager),
       mHealer(resourceManager.getTexture("Healer"), sf::Vector2u(3, 4), 0.2f, 150.0f, sf::Vector2f(100.0f, 100.0f)),
       mFloatingShapes(resourceManager.getTexture("Ghost"), sf::Vector2f(400.0f, 400.0f)),
-      mDjBooth(resourceManager.getTexture("DjBooth"), sf::Vector2f(50.0f, 50.0f)),
-      mBullets(resourceManager.getTexture("Bullet"), sf::Vector2u(3, 1), 0.2f, sf ::Vector2f(4.0, 4.0f), sf::Vector2f(150.0f, 200.0f))
+      mDjBooth(resourceManager.getTexture("DjBooth"), sf::Vector2f(50.0f, 50.0f))
 {
 
     std::cout << "Scene initialized with Healer texture" << std::endl;
@@ -13,7 +12,41 @@ Scene::Scene(ResourceManager &resourceManager)
 
 void Scene::handleEvent(const sf::Event &event)
 {
-    // Handle input events for the scene
+    if (event.type == sf::Event::MouseButtonPressed)
+    {
+        if (event.mouseButton.button == sf::Mouse::Left)
+        {
+            shootBullet(event.mouseButton.x, event.mouseButton.y);
+        }
+    }
+}
+void Scene::shootBullet(int mouseX, int mouseY)
+{
+    // Get the Healer's position
+    sf::Vector2f healerPos = mHealer.getSprite().getPosition();
+
+    // Calculate the direction vector from Healer to mouse position
+    sf::Vector2f direction = sf::Vector2f(mouseX, mouseY) - healerPos;
+
+    // Normalize the direction vector
+    float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
+    if (length != 0)
+        direction /= length;
+
+    // Set bullet speed
+    float bulletSpeed = 500.0f; // Adjust as needed
+    sf::Vector2f bulletVelocity = direction * bulletSpeed;
+
+    // Create a new bullet and add it to the vector
+    Bullets bullet(
+        mResourceManager.getTexture("Bullet"),
+        sf::Vector2u(3, 1), // Assuming 3 frames in one row
+        0.2f,               // Animation switch time
+        bulletVelocity,
+        healerPos // Start at the Healer's position
+    );
+
+    mBullets.push_back(bullet);
 }
 void Scene::collisionDetection()
 {
@@ -36,7 +69,21 @@ void Scene::playMusic(const std::string &name)
 void Scene::update(sf::Time deltaTime)
 {
     mHealer.update(deltaTime.asSeconds());
-    mBullets.update(deltaTime.asSeconds());
+    // Update bullets
+    for (auto it = mBullets.begin(); it != mBullets.end();)
+    {
+        it->update(deltaTime.asSeconds());
+
+        // Remove bullet if it goes off-screen
+        if (it->isOffScreen())
+        {
+            it = mBullets.erase(it);
+        }
+        else
+        {
+            ++it;
+        }
+    }
     mFloatingShapes.update(deltaTime.asSeconds());
     // playMusic("BackgroundMusic");
     collisionDetection();
@@ -47,5 +94,9 @@ void Scene::draw(sf::RenderWindow &window)
     mHealer.draw(window);
     mFloatingShapes.draw(window);
     mDjBooth.draw(window);
-    mBullets.draw(window);
+    // Draw bullets
+    for (auto &bullet : mBullets)
+    {
+        bullet.draw(window);
+    }
 }
