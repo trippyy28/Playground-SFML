@@ -14,9 +14,11 @@ public:
     void whenCollided();
     sf::Sprite getSprite();
     sf::FloatRect getGlobalBounds() const;
+    void updateDirection(const sf::Vector2f &direction);
 
 private:
     sf::Vector2f mSpeed;
     AnimationB mAnimation;
     unsigned int mRow;
+    bool faceRight;
 };

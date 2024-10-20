@@ -5,7 +5,7 @@ Healer::Healer(const sf::Texture &texture, sf::Vector2u imageCount, float switch
 {
     mRow = 0;
     mSprite.setTextureRect(mAnimation.uvRect);
-    mSprite.setScale(5.0f, 5.0f);
+    mSprite.setScale(4.0f, 4.0f);
 }
 
 Healer::~Healer() = default;

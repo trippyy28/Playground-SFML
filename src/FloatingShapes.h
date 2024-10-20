@@ -12,6 +12,7 @@ public:
 
     void draw(sf::RenderWindow &window) override;
     void update(float deltaTime) override;
+    void whenCollided();                   // Add this method
     sf::FloatRect getGlobalBounds() const; // Add this method
 
 private:

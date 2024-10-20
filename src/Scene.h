@@ -26,6 +26,9 @@ private:
     FloatingShapes mFloatingShapes;
     // make the bullets vector
     std::vector<Bullets> mBullets;
+    sf::Font mFont;
+    sf::Text mScoreText;
     DjBooth mDjBooth;
     void shootBullet(int mouseX, int mouseY);
+    int mScore = 0;
 };

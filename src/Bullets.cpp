@@ -7,7 +7,7 @@ Bullets::Bullets(const sf::Texture &texture, sf::Vector2u imageCount, float swit
     mSprite.setTexture(texture);
     mSprite.setPosition(position);
     mSprite.setTextureRect(mAnimation.uvRect);
-    mSprite.setScale(5.0f, 5.0f);
+    mSprite.setScale(4.0f, 4.0f);
 
     // Add the bullet to the vector
 }
@@ -33,4 +33,17 @@ bool Bullets::isOffScreen() const
 void Bullets::draw(sf::RenderWindow &window)
 {
     Entity::draw(window);
+}
+
+void Bullets::updateDirection(const sf::Vector2f &direction)
+{
+    if (direction.x > 0)
+    {
+        mSprite.setScale(4.0f, 4.0f); // Face right
+    }
+    else
+    {
+        mSprite.setScale(-4.0f, 4.0f); // Face left
+    }
+    mSpeed = direction * 500.0f; // Update speed based on direction
 }

@@ -2,18 +2,21 @@
 #include <iostream>
 
 Game::Game()
-    : mWindow(sf::VideoMode(800, 600), "SFML works!"),
+    : mBackgroundColor(colors[0], colors[1], colors[2]),
+      mWindow(sf::VideoMode(800, 600), "SFML works!"),
       menu(800, 600)
 {
     mWindow.setFramerateLimit(60);
 
     // Load textures manually before creating the Scene
     mResourceManager.loadTexture("Healer", "/users/trippyy28/Desktop/SFML Playground/src/Assets/Healer.png");
-    mResourceManager.loadTexture("Ghost", "/users/trippyy28/Desktop/SFML Playground/src/Assets/ghost.png");
+    mResourceManager.loadTexture("Ghost", "/users/trippyy28/Desktop/SFML Playground/src/Assets/ghost-export.png");
     mResourceManager.loadTexture("M_11", "/users/trippyy28/Desktop/SFML Playground/src/Assets/M_11.png");
     mResourceManager.loadTexture("Soldier", "/users/trippyy28/Desktop/SFML Playground/src/Assets/Soldier/Soldier.png");
-    mResourceManager.loadTexture("Bullet", "/users/trippyy28/Desktop/SFML Playground/src/Assets/shoot.png");
+    mResourceManager.loadTexture("Bullet", "/users/trippyy28/Desktop/SFML Playground/src/Assets/shoot2.png");
+    mResourceManager.loadTexture("DjBooth", "/users/trippyy28/Desktop/SFML Playground/src/Assets/DjBooth.png");
     mResourceManager.loadMusic("BackgroundMusic", "/users/trippyy28/Desktop/SFML Playground/src/Assets/DJ Jeroenski - Back Once Again (Lee Mortimer Remix).mp3");
+
     mCurrentScene = std::make_unique<Scene>(mResourceManager);
 }
 
@@ -84,7 +87,7 @@ void Game::update(sf::Time deltaTime)
 
 void Game::render()
 {
-    mWindow.clear();
+    mWindow.clear(mBackgroundColor);
     if (showMenu)
     {
         menu.draw(mWindow);

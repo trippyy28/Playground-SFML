@@ -21,6 +21,44 @@ void FloatingShapes::draw(sf::RenderWindow &window)
         window.draw(*shape);
     }
 }
+
+void FloatingShapes::whenCollided()
+{
+    for (const auto &shape : shapes)
+    {
+        // shape will explode when collided and become smaller and multiple shapes will be created
+        if (auto rectangleShape = std::dynamic_pointer_cast<sf::RectangleShape>(shape))
+        {
+            rectangleShape->setSize(rectangleShape->getSize() * 0.5f);
+            if (rectangleShape->getSize().x <= 10.0f || rectangleShape->getSize().y <= 10.0f)
+            {
+                shapes.erase(std::remove(shapes.begin(), shapes.end(), rectangleShape), shapes.end());
+            }
+            else
+            {
+                auto newRectangleShape = std::make_shared<sf::RectangleShape>(rectangleShape->getSize());
+                newRectangleShape->setTexture(rectangleShape->getTexture());
+                newRectangleShape->setPosition(rectangleShape->getPosition());
+                shapes.push_back(newRectangleShape);
+            }
+        }
+        else if (auto circleShape = std::dynamic_pointer_cast<sf::CircleShape>(shape))
+        {
+            circleShape->setRadius(circleShape->getRadius() * 0.5f);
+            if (circleShape->getRadius() <= 5.0f)
+            {
+                shapes.erase(std::remove(shapes.begin(), shapes.end(), circleShape), shapes.end());
+            }
+            else
+            {
+                auto newCircleShape = std::make_shared<sf::CircleShape>(circleShape->getRadius());
+                newCircleShape->setTexture(circleShape->getTexture());
+                newCircleShape->setPosition(circleShape->getPosition());
+                shapes.push_back(newCircleShape);
+            }
+        }
+        }
+}
 sf::FloatRect FloatingShapes::getGlobalBounds() const
 {
     if (shapes.empty())

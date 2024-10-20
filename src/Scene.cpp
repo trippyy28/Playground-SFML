@@ -6,7 +6,10 @@ Scene::Scene(ResourceManager &resourceManager)
       mFloatingShapes(resourceManager.getTexture("Ghost"), sf::Vector2f(400.0f, 400.0f)),
       mDjBooth(resourceManager.getTexture("DjBooth"), sf::Vector2f(50.0f, 50.0f))
 {
-
+    if (!mFont.loadFromFile("/users/trippyy28/Desktop/SFML Playground/src/Assets/Arial.ttf"))
+    {
+        // Handle error
+    }
     std::cout << "Scene initialized with Healer texture" << std::endl;
 }
 
@@ -45,8 +48,13 @@ void Scene::shootBullet(int mouseX, int mouseY)
         bulletVelocity,
         healerPos // Start at the Healer's position
     );
+    bullet.updateDirection(direction);
 
     mBullets.push_back(bullet);
+    std::cout << "bullet direction: " << direction.x << " " << direction.y << std::endl;
+    std::cout << "bullet sprite" << bullet.getSprite().getRotation() << std::endl;
+    std::cout << "bullet size" << bullet.getSprite().getScale().x << std::endl;
+    std::cout << "score" << mScore << std::endl;
 }
 void Scene::collisionDetection()
 {
@@ -55,6 +63,14 @@ void Scene::collisionDetection()
     {
 
         mHealer.whenCollided();
+    }
+    for (auto &bullet : mBullets)
+    {
+        if (bullet.getSprite().getGlobalBounds().intersects(mFloatingShapes.getGlobalBounds()))
+        {
+            mFloatingShapes.whenCollided();
+            mScore++;
+        }
     }
 }
 
@@ -83,6 +99,7 @@ void Scene::update(sf::Time deltaTime)
         {
             ++it;
         }
+        // scale the direction of the bullet based on the mouse position
     }
     mFloatingShapes.update(deltaTime.asSeconds());
     // playMusic("BackgroundMusic");
@@ -99,4 +116,8 @@ void Scene::draw(sf::RenderWindow &window)
     {
         bullet.draw(window);
     }
+    // Draw the score
+    sf::Text scoreText("Score: " + std::to_string(mScore), mFont, 24);
+    scoreText.setPosition(10.0f, 10.0f);
+    window.draw(scoreText);
 }
