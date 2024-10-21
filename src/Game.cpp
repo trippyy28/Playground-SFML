@@ -15,6 +15,7 @@ Game::Game()
     mResourceManager.loadTexture("Soldier", "/users/trippyy28/Desktop/SFML Playground/src/Assets/Soldier/Soldier.png");
     mResourceManager.loadTexture("Bullet", "/users/trippyy28/Desktop/SFML Playground/src/Assets/shoot2.png");
     mResourceManager.loadTexture("DjBooth", "/users/trippyy28/Desktop/SFML Playground/src/Assets/DjBooth.png");
+    mResourceManager.loadTexture("Knight", "/users/trippyy28/Desktop/SFML Playground/src/Assets/Knight.png");
     mResourceManager.loadMusic("BackgroundMusic", "/users/trippyy28/Desktop/SFML Playground/src/Assets/DJ Jeroenski - Back Once Again (Lee Mortimer Remix).mp3");
 
     mCurrentScene = std::make_unique<Scene>(mResourceManager);

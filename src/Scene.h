@@ -6,6 +6,7 @@
 #include "DjBooth.h"
 #include "ResourceManager.h"
 #include "Bullets.h"
+#include "Knight.h"
 #include <iostream>
 #include <string>
 
@@ -24,10 +25,10 @@ private:
     ResourceManager &mResourceManager;
     Healer mHealer;
     FloatingShapes mFloatingShapes;
+    Knight mKnight;
     // make the bullets vector
     std::vector<Bullets> mBullets;
     sf::Font mFont;
-    sf::Text mScoreText;
     DjBooth mDjBooth;
     void shootBullet(int mouseX, int mouseY);
     int mScore = 0;

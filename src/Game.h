@@ -17,8 +17,6 @@ private:
     int colors[3] = {99, 155, 255};
 
     sf::Color mBackgroundColor;
-    // text
-    sf::Font font;
     sf::RenderWindow mWindow;
     std::unique_ptr<Scene> mCurrentScene; // Use unique_ptr for Scene                                // Manage different scenes
     ResourceManager mResourceManager;     // Manage resources like textures and sounds

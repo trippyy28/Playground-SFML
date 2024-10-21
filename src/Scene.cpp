@@ -4,7 +4,9 @@ Scene::Scene(ResourceManager &resourceManager)
     : mResourceManager(resourceManager),
       mHealer(resourceManager.getTexture("Healer"), sf::Vector2u(3, 4), 0.2f, 150.0f, sf::Vector2f(100.0f, 100.0f)),
       mFloatingShapes(resourceManager.getTexture("Ghost"), sf::Vector2f(400.0f, 400.0f)),
-      mDjBooth(resourceManager.getTexture("DjBooth"), sf::Vector2f(50.0f, 50.0f))
+      mDjBooth(resourceManager.getTexture("DjBooth"), sf::Vector2f(50.0f, 50.0f)),
+      mKnight(resourceManager.getTexture("Knight"), sf::Vector2u(3, 4), 0.2f, 150.0f, sf::Vector2f(50.0f, 50.0f))
+
 {
     if (!mFont.loadFromFile("/users/trippyy28/Desktop/SFML Playground/src/Assets/Arial.ttf"))
     {
@@ -111,6 +113,7 @@ void Scene::draw(sf::RenderWindow &window)
     mHealer.draw(window);
     mFloatingShapes.draw(window);
     mDjBooth.draw(window);
+    mKnight.draw(window);
     // Draw bullets
     for (auto &bullet : mBullets)
     {

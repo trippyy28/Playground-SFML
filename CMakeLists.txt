@@ -31,6 +31,7 @@ add_executable(Playground
     src/DjBooth.cpp
     src/Menu.cpp
     src/Bullets.cpp
+    src/Knight.cpp
 )
 
 # Link SFML libraries
